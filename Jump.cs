@@ -18,7 +18,7 @@ public class Jump : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
-            GetComponent<Rigidbody>().velocity = Vector2.up * jumpVelocity;
+            GetComponent<Rigidbody2D>().velocity = Vector2.up * jumpVelocity;
 
         }
     }
