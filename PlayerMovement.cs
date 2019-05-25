@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     float horizontalMove = 0f;
     bool jump = false;
     bool crouch = false;
+    public float leftBound = -1f;
+    public float rightBound = 1f;
  
     // Update is called once per frame
     void Update()
@@ -32,7 +34,22 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-        controller.Move(horizontalMove *runSpeed* Time.deltaTime, false, jump);
+        if ((transform.position.x < rightBound) && (transform.position.x > leftBound))
+        {
+            controller.Move(horizontalMove * runSpeed * Time.deltaTime, false, jump);
+        }
+        else if ((transform.position.x >= rightBound) && (horizontalMove < 0))
+        {
+            controller.Move(horizontalMove * runSpeed * Time.deltaTime, false, jump);
+        }
+        else if ((transform.position.x <= leftBound) && (horizontalMove > 0))
+        {
+            controller.Move(horizontalMove * runSpeed * Time.deltaTime, false, jump);
+        }
+        else
+        {
+            controller.Move(0f, false, jump);
+        }
         jump = false;
 
     }
