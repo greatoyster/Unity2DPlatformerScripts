@@ -1,0 +1,42 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ReturnToOrigin : MonoBehaviour
+{
+    private float originX = 0f;
+    private Vector2 originPosition;
+    public float runSpeed = 0.1f;
+    public CharacterController2D controller;
+    private float RestTime = 0f;
+    public float delayTime = 100f;
+    Rigidbody2D rb;
+    
+    void Start()
+    {
+        originX = this.transform.position.x;
+        originPosition = this.transform.position;
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    // Update is called once per frame
+
+    void FixedUpdate()
+    {
+        if ((Input.GetAxisRaw("Crouch") == 0) && (Input.GetAxisRaw("Horizontal") == 0) && !Input.GetButtonDown("Jump"))
+        {
+            RestTime += 1f;
+        }
+        else
+        {
+            RestTime = 0f;
+        }
+        //print(transform.position.x == originPosition);
+        if ((RestTime > delayTime) && (transform.position.x != originX))
+        {
+            //print(transform.position.x);
+            //controller.Move(horizontalMove * runSpeed * Time.deltaTime, false, false);
+            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, new Vector2(originX, transform.position.y), runSpeed * Time.deltaTime);
+        }
+    }
+}
